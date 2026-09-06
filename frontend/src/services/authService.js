@@ -1,0 +1,37 @@
+import axios from "axios";
+
+const API_URL = `${import.meta.env.VITE_API_URL}/auth`;
+
+// REGISTER
+export const registerUser = async (userData) => {
+    const response = await axios.post(
+        `${API_URL}/register`,
+        userData
+    );
+
+    return response.data;
+};
+
+// LOGIN
+export const loginUser = async (userData) => {
+    const response = await axios.post(
+        `${API_URL}/login`,
+        userData
+    );
+
+    return response.data;
+};
+
+// GET CURRENT USER
+export const getCurrentUser = async (token) => {
+    const response = await axios.get(
+        `${API_URL}/me`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    return response.data;
+};
