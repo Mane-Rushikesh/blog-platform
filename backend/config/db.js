@@ -6,7 +6,8 @@ const pool = mysql.createPool({
     user: process.env.MYSQLUSER || process.env.DB_USER,
     password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD,
     database: process.env.MYSQLDATABASE || process.env.DB_NAME,
-    port: process.env.MYSQLPORT || process.env.DB_PORT,
+    port: Number(process.env.MYSQLPORT || process.env.DB_PORT || 3306),
+
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -20,10 +21,13 @@ const testConnection = async () => {
 
         connection.release();
     } catch (error) {
-        console.error(
-            "MySQL Connection Error:",
-            error.message
-        );
+        console.error("MySQL Connection Error:");
+        console.error("Code:", error.code);
+        console.error("Message:", error.message);
+        console.error("Host:", process.env.MYSQLHOST);
+        console.error("Port:", process.env.MYSQLPORT);
+        console.error("Database:", process.env.MYSQLDATABASE);
+        console.error("User:", process.env.MYSQLUSER);
     }
 };
 
